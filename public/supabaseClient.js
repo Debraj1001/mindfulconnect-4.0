@@ -6,5 +6,4 @@ const supabaseUrl = "https://qeuppsmpoyhectbluhfv.supabase.co" // Replace with y
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFldXBwc21wb3loZWN0Ymx1aGZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxMDQ4NTAsImV4cCI6MjA1NzY4MDg1MH0.i7VLvIeeOum6uaE8KEF-Z244Cf7TaJJdWoqE9whUSzc" // Replace with your actual Supabase anon key
 
 // Export the supabase client for use in other files
-export const supabase = createClient(supabaseUrl, supabaseKey)
-
+export const supabase = createClient("https://qeuppsmpoyhectbluhfv.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFldXBwc21wb3loZWN0Ymx1aGZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxMDQ4NTAsImV4cCI6MjA1NzY4MDg1MH0.i7VLvIeeOum6uaE8KEF-Z244Cf7TaJJdWoqE9whUSzc");
