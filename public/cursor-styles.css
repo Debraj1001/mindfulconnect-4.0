@@ -1,0 +1,121 @@
+/* Custom cursor styles */
+.cursor-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background-color: rgba(99, 102, 241, 0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+  mix-blend-mode: difference;
+  filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.5));
+}
+
+.cursor-ripple {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s, border-color 0.4s;
+}
+
+.cursor.cursor-active {
+  width: 20px;
+  height: 20px;
+  background-color: rgba(99, 102, 241, 0.9);
+}
+
+.cursor-ripple.cursor-active {
+  width: 50px;
+  height: 50px;
+  border-color: rgba(99, 102, 241, 0.6);
+}
+
+.ripple {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(99, 102, 241, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: rippleEffect 1s ease-out forwards;
+}
+
+@keyframes rippleEffect {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  100% {
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+  }
+}
+
+/* Water ripple effect styles */
+.water-ripple {
+  position: fixed;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  z-index: 9999;
+  transform-origin: center;
+  transition: transform 1.5s ease-out, opacity 1.5s ease-out;
+}
+
+.cursor-container,
+.cursor,
+.cursor-ripple,
+.ripple {
+  display: none;
+}
+
+/* Restore default cursor */
+html,
+body {
+  cursor: default;
+}
+
+/* Add subtle animation to ripples */
+@keyframes rippleWave {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.6);;
+  }
+  100% {
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0);
+  }
+}
+
+.water-ripple {
+  animation: rippleWave 1.5s infinite;
+}
+
+/* Show default cursor on touch devices */
+@media (hover: none) {
+  html,
+  body {
+    cursor: auto;
+  }
+
+  .cursor-container,
+  .cursor,
+  .cursor-ripple,
+  .ripple {
+    display: none;
+  }
+}
+

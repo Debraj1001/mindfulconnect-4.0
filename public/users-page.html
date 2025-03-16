@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Users - MindfulConnect @ GMIT</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="users-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Add Supabase JS library -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="animated-background">
+    <div class="gradient-sphere"></div>
+    <div class="gradient-sphere"></div>
+    <div class="gradient-sphere"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">
+        <h1><i class="fas fa-brain"></i> MindfulConnect</h1>
+      </div>
+      <nav>
+        <button class="mobile-menu-btn" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+          <li><a href="landing.html">Home</a></li>
+          <li><a href="landing.html#forums">Forums</a></li>
+          <li><a href="landing.html#connect">Connect</a></li>
+          <li><a href="landing.html#track">Mood Tracker</a></li>
+          <li><a href="landing.html#challenges">Challenges</a></li>
+          <li><a href="landing.html#resources">Resources</a></li>
+          <li><a href="landing.html#events">Events</a></li>
+          <li><a href="users-page.html" class="active">Users</a></li>
+          <li class="emergency-nav-item"><a href="landing.html#emergency" class="emergency-nav-btn">Emergency</a></li>
+        </ul>
+        <div class="nav-buttons">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="users-section">
+      <div class="container">
+        <h1 class="section-title">Community Members</h1>
+        <p class="section-description">Connect with other members of the MindfulConnect community</p>
+        
+        <div class="users-filter">
+          <div class="search-bar">
+            <input type="text" id="user-search" placeholder="Search users...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="filter-options">
+            <select id="status-filter">
+              <option value="all">All Users</option>
+              <option value="online">Online</option>
+              <option value="offline">Offline</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="users-container">
+          <div id="users-list" class="users-grid">
+            <!-- Users will be loaded here dynamically -->
+            <div class="loading-container">
+              <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
+              <p>Loading users...</p>
+            </div>
+          </div>
+          
+          <div id="pagination" class="pagination">
+            <!-- Pagination will be added here -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>MindfulConnect @ GMIT</h2>
+          <p>Gargi Memorial Institute of Technology</p>
+          <p>Kolkata, West Bengal</p>
+          <p>Email: mindfulconnect@gmit.edu</p>
+          <p>Phone: +91-83369 42309 / +91-83369 42300</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="link-group">
+            <h3>Platform</h3>
+            <ul>
+              <li><a href="landing.html#home">Home</a></li>
+              <li><a href="landing.html#forums">Forums</a></li>
+              <li><a href="landing.html#connect">Connect</a></li>
+              <li><a href="landing.html#track">Mood Tracker</a></li>
+              <li><a href="landing.html#challenges">Challenges</a></li>
+            </ul>
+          </div>
+          
+          <div class="link-group">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="landing.html#resources">Resource Library</a></li>
+              <li><a href="landing.html#events">Events</a></li>
+              <li><a href="landing.html#emergency">Emergency Help</a></li>
+              <li><a href="#">Campus Services</a></li>
+              <li><a href="#">Community Partners</a></li>
+            </ul>
+          </div>
+          
+          <div class="link-group">
+            <h3>About</h3>
+            <ul>
+              <li><a href="about-us.html">Our Team</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Use</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Support</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-newsletter">
+          <h3>Stay Connected</h3>
+          <p>Receive updates on events, resources, and wellness tips</p>
+          <form id="newsletter-form">
+            <input type="email" placeholder="Your email address" required>
+            <button type="submit" class="primary-btn">Subscribe</button>
+          </form>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 MindfulConnect. All rights reserved.</p>
+        <p>Created with 💙 for student wellbeing</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="transition-overlay" class="transition-overlay">
+    <div class="transition-logo">
+      <i class="fas fa-brain"></i>
+      <span>MindfulConnect</span>
+    </div>
+    <div class="transition-logo home-logo">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </div>
+  </div>
+
+  <!-- User Profile Modal -->
+  <div id="user-profile-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>User Profile</h2>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="user-profile-header">
+          <div class="user-avatar-large">
+            <img id="modal-user-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="User Avatar">
+            <span id="modal-user-status" class="status-indicator online"></span>
+          </div>
+          <div class="user-info-large">
+            <h3 id="modal-user-name">Loading...</h3>
+            <p id="modal-user-email">Loading...</p>
+            <p id="modal-user-joined">Joined: Loading...</p>
+          </div>
+        </div>
+        <div class="user-bio">
+          <h4>About</h4>
+          <p id="modal-user-bio">Loading...</p>
+        </div>
+        <div class="user-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="modal-user-posts">0</span>
+            <span class="stat-label">Posts</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="modal-user-connections">0</span>
+            <span class="stat-label">Connections</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="modal-user-challenges">0</span>
+            <span class="stat-label">Challenges</span>
+          </div>
+        </div>
+        <div class="user-actions">
+          <button id="connect-btn" class="primary-btn"><i class="fas fa-user-plus"></i> Connect</button>
+          <button id="message-btn" class="secondary-btn"><i class="fas fa-comment"></i> Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/supabase-client.js"></script>
+  <script src="js/users-page.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
