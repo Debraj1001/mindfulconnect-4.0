@@ -1,4 +1,4 @@
-import supabase from "./supabase-client.js
+// import supabase from "./supabase-client.js
 
 document.addEventListener("DOMContentLoaded", () => {
   // Hide transition overlay on page load to fix back button issue
