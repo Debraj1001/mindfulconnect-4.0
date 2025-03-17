@@ -100,6 +100,28 @@
   <script type="module" src="auth-script.js"></script>
   <script type="module" src="auth-script.js"></script>
   <script type="module" src="auth.js"></script>
+  <script>
+  // Ensure we're not importing the same script multiple times
+  document.addEventListener("DOMContentLoaded", () => {
+    // Remove duplicate script imports if they exist
+    const scriptTags = document.querySelectorAll('script[src="auth-script.js"]');
+    if (scriptTags.length > 1) {
+      for (let i = 1; i < scriptTags.length; i++) {
+        scriptTags[i].remove();
+      }
+    }
+    
+    // Remove duplicate module imports if they exist
+    const moduleScripts = document.querySelectorAll('script[type="module"][src="auth-script.js"]');
+    if (moduleScripts.length > 1) {
+      for (let i = 1; i < moduleScripts.length; i++) {
+        moduleScripts[i].remove();
+      }
+    }
+  });
+</script>
 </body>
 </html>
+
+
 
