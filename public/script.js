@@ -1,11 +1,3 @@
-// Import supabase client
-import { createClient } from "@supabase/supabase-js"
-
-// Initialize Supabase client
-const supabaseUrl = "https://your-supabase-url.supabase.co" // Replace with your Supabase URL
-const supabaseKey = "your-supabase-api-key" // Replace with your Supabase API key
-const supabase = createClient(supabaseUrl, supabaseKey)
-
 // Wait for DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize the application
@@ -60,144 +52,94 @@ function initApp() {
   initBackToHomeButton()
 
   // Initialize logout button
-  //initLogoutButton() // Moved inside checkAuthStatus
+  initLogoutButton()
 }
-
-// In the checkAuthStatus function, update to properly handle the authentication state
 
 // Check authentication status
-async function checkAuthStatus() {
-  try {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser()
-    const authButtons = document.querySelector(".nav-buttons")
-    const userProfileBtn = document.getElementById("user-profile-btn")
-    const protectedSections = document.querySelectorAll(".protected-section")
+function checkAuthStatus() {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+  const authButtons = document.querySelector(".nav-buttons")
+  const userProfileBtn = document.getElementById("user-profile-btn")
+  const protectedSections = document.querySelectorAll(".protected-section")
 
-    if (user) {
-      // User is logged in
-      console.log("User is logged in:", user)
-
-      // Get user profile data
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single()
-
-      if (profileError) {
-        console.error("Error fetching profile:", profileError)
-      }
-
-      const displayName = profile?.full_name || user.user_metadata?.full_name || user.email.split("@")[0]
-
-      if (authButtons) {
-        authButtons.innerHTML = `
-          <div class="user-welcome">Welcome, ${displayName.split(" ")[0]}</div>
-          <button id="logout-btn" class="logout-btn">Logout</button>
-        `
-      }
-
-      if (userProfileBtn) {
-        userProfileBtn.style.display = "flex"
-        userProfileBtn.querySelector(".user-name").textContent = displayName.split(" ")[0]
-      }
-
-      // Show protected sections
-      protectedSections.forEach((section) => {
-        section.classList.remove("auth-required")
-        const authOverlay = section.querySelector(".auth-overlay")
-        if (authOverlay) {
-          authOverlay.style.display = "none"
-        }
-      })
-
-      // Initialize logout button
-      initLogoutButton()
-    } else {
-      // User is not logged in
-      console.log("User is not logged in")
-
-      if (authButtons) {
-        authButtons.innerHTML = `
-          <a href="auth.html" class="login-btn">Login</a>
-          <a href="auth.html?signup=true" class="signup-btn">Sign Up</a>
-        `
-      }
-
-      if (userProfileBtn) {
-        userProfileBtn.style.display = "none"
-      }
-
-      // Hide protected sections content and show auth overlay
-      protectedSections.forEach((section) => {
-        section.classList.add("auth-required")
-        let authOverlay = section.querySelector(".auth-overlay")
-
-        if (!authOverlay) {
-          authOverlay = document.createElement("div")
-          authOverlay.className = "auth-overlay"
-          authOverlay.innerHTML = `
-            <div class="auth-overlay-content">
-              <i class="fas fa-lock"></i>
-              <h3>Authentication Required</h3>
-              <p>Please log in or sign up to access this feature</p>
-              <div class="auth-overlay-buttons">
-                <a href="auth.html" class="primary-btn">Login</a>
-                <a href="auth.html?signup=true" class="secondary-btn">Sign Up</a>
-              </div>
-            </div>
-          `
-          section.appendChild(authOverlay)
-        } else {
-          authOverlay.style.display = "flex"
-        }
-      })
+  if (currentUser) {
+    // User is logged in
+    if (authButtons) {
+      authButtons.innerHTML = `
+        <div class="user-welcome">Welcome, ${currentUser.name.split(" ")[0]}</div>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+      `
     }
-  } catch (error) {
-    console.error("Error checking auth status:", error)
-  }
-}
 
-// Update the initLogoutButton function
-function initLogoutButton() {
-  const logoutBtn = document.getElementById("logout-btn")
+    if (userProfileBtn) {
+      userProfileBtn.style.display = "flex"
+      userProfileBtn.querySelector(".user-name").textContent = currentUser.name.split(" ")[0]
+    }
 
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        // Get current user before logout
-        const {
-          data: { user },
-        } = await supabase.auth.getUser()
+    // Show protected sections
+    protectedSections.forEach((section) => {
+      section.classList.remove("auth-required")
+      const authOverlay = section.querySelector(".auth-overlay")
+      if (authOverlay) {
+        authOverlay.style.display = "none"
+      }
+    })
+  } else {
+    // User is not logged in
+    if (authButtons) {
+      authButtons.innerHTML = `
+        <a href="auth.html" class="login-btn">Login</a>
+        <a href="auth.html?signup=true" class="signup-btn">Sign Up</a>
+      `
+    }
 
-        // Update user's online status to false before logging out
-        if (user) {
-          const { error: updateError } = await supabase.from("profiles").update({ is_online: false }).eq("id", user.id)
+    if (userProfileBtn) {
+      userProfileBtn.style.display = "none"
+    }
 
-          if (updateError) console.error("Error updating online status:", updateError)
-        }
+    // Hide protected sections content and show auth overlay
+    protectedSections.forEach((section) => {
+      section.classList.add("auth-required")
+      let authOverlay = section.querySelector(".auth-overlay")
 
-        // Sign out from Supabase
-        const { error } = await supabase.auth.signOut()
-
-        if (error) throw error
-
-        // Show logout message
-        showToast("You have been logged out successfully")
-
-        // Redirect to home page after short delay
-        setTimeout(() => {
-          window.location.href = "index.html"
-        }, 1500)
-      } catch (error) {
-        console.error("Error during logout:", error)
-        showToast("Error during logout. Please try again.")
+      if (!authOverlay) {
+        authOverlay = document.createElement("div")
+        authOverlay.className = "auth-overlay"
+        authOverlay.innerHTML = `
+          <div class="auth-overlay-content">
+            <i class="fas fa-lock"></i>
+            <h3>Authentication Required</h3>
+            <p>Please log in or sign up to access this feature</p>
+            <div class="auth-overlay-buttons">
+              <a href="auth.html" class="primary-btn">Login</a>
+              <a href="auth.html?signup=true" class="secondary-btn">Sign Up</a>
+            </div>
+          </div>
+        `
+        section.appendChild(authOverlay)
+      } else {
+        authOverlay.style.display = "flex"
       }
     })
   }
+}
+
+// Initialize logout button
+function initLogoutButton() {
+  document.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "logout-btn") {
+      // Clear user session
+      localStorage.removeItem("currentUser")
+
+      // Show logout message
+      showToast("You have been logged out successfully")
+
+      // Redirect to home page after short delay
+      setTimeout(() => {
+        window.location.href = "index.html"
+      }, 1500)
+    }
+  })
 }
 
 // Remove the initTheme function completely
@@ -1992,10 +1934,4 @@ function showToast(message) {
     toast.classList.remove("show")
   }, 3000)
 }
-
-// Hide toast after 3 seconds
-setTimeout(() => {
-  toast.classList.remove("show")
-}, 3000)
-
 
