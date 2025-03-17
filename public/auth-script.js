@@ -1,6 +1,5 @@
-import supabase from "./supabase-client.js";
-console.log(supabase);
-
+import supabase from "./supabase-client.js"
+console.log(supabase)
 
 document.addEventListener("DOMContentLoaded", () => {
   // Hide transition overlay on page load to fix back button issue
@@ -128,6 +127,18 @@ function initFormSubmissions() {
           loginSuccess.style.display = "block"
         }
 
+        // Update user's online status
+        try {
+          const { error: updateError } = await supabase
+            .from("profiles")
+            .update({ is_online: true })
+            .eq("id", data.user.id)
+
+          if (updateError) console.error("Error updating online status:", updateError)
+        } catch (statusError) {
+          console.error("Error updating online status:", statusError)
+        }
+
         // Redirect to landing page after short delay
         setTimeout(() => {
           window.location.href = "landing.html"
@@ -203,10 +214,15 @@ function initFormSubmissions() {
 
       try {
         // Sign up with Supabase
-        const { data, error } = await supabase.auth.signInWithOAuth({
-  provider: 'google',
-});
-
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: name,
+            },
+          },
+        })
 
         if (error) throw error
 
@@ -220,6 +236,7 @@ function initFormSubmissions() {
                 email: email,
                 username: email.split("@")[0] + Math.floor(Math.random() * 1000),
                 avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.id}`,
+                is_online: true,
               },
             ])
 
@@ -371,6 +388,8 @@ function initBackToHomeButton() {
 
       // Add active class to overlay to show it
       transitionOverlay.classList.add("active")
+      transitionOverlay.style.opacity = "1"
+      transitionOverlay.style.visibility = "visible"
 
       // After animation completes, redirect to index.html
       setTimeout(() => {
@@ -402,5 +421,7 @@ function showToast(message) {
     toast.classList.remove("show")
   }, 3000)
 }
+
+
 
 
