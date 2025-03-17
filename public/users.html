@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Members - MindfulConnect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="users-styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">
+        <h1><i class="fas fa-brain"></i> MindfulConnect</h1>
+      <nav>
+        <div class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+          <li><a href="landing.html">Dashboard</a></li>
+          <li><a href="users.html" class="active">Community</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+        <div class="nav-buttons">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section id="users" class="users-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Community Members</h2>
+          <p>Connect with other members of the MindfulConnect community</p>
+        </div>
+
+        <div class="users-controls">
+          <div class="search-bar">
+            <input type="text" id="user-search" placeholder="Search by name or username...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="filter-options">
+            <select id="status-filter">
+              <option value="all">All Members</option>
+              <option value="online">Online Now</option>
+              <option value="offline">Offline</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="users-grid" id="users-grid">
+          <!-- Will be populated by JavaScript -->
+          <div class="loading-users">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading community members...</p>
+          </div>
+        </div>
+
+        <div class="pagination" id="pagination">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="images/logo.png" alt="MindfulConnect Logo">
+          <div class="logo-text">MindfulConnect</div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="landing.html">Dashboard</a></li>
+            <li><a href="users.html">Community</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="about-us.html">About Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact Us</h4>
+          <p><i class="fas fa-envelope"></i> support@mindfulconnect.com</p>
+          <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 MindfulConnect. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- User Profile Modal -->
+  <div id="user-profile-modal" class="user-modal">
+    <div class="user-modal-content">
+      <div class="user-modal-header">
+        <h3>User Profile</h3>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="user-modal-body">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Home Button -->
+  <button id="back-to-home-btn" class="back-to-home-btn">
+    <i class="fas fa-home"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script type="module" src="supabase-client.js"></script>
+  <script type="module" src="users.js"></script>
+</body>
+</html>
+

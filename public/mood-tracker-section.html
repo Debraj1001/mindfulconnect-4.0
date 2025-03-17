@@ -1,0 +1,77 @@
+<!-- This is a snippet to replace the mood tracker section in landing.html -->
+<section id="track" class="mood-tracker protected-section">
+  <div class="container">
+    <h2 class="section-title">Mood Tracking & Check-Ins</h2>
+    <p class="section-description">Monitor your emotional wellbeing and identify patterns over time</p>
+    
+    <div id="mood-empty-state" class="empty-state">
+      <i class="fas fa-chart-line"></i>
+      <p>You haven't tracked any moods yet. Start tracking your daily mood to see your patterns and get personalized insights.</p>
+    </div>
+    
+    <div class="mood-tracker-container">
+      <div class="daily-check-in">
+        <h3>Today's Check-In</h3>
+        <p class="check-in-date" id="current-date">Loading date...</p>
+        
+        <div class="mood-selection">
+          <p>How are you feeling today?</p>
+          <div class="mood-options">
+            <div class="mood-option" data-mood="great">
+              <div class="mood-emoji">😄</div>
+              <span>Great</span>
+            </div>
+            <div class="mood-option" data-mood="good">
+              <div class="mood-emoji">🙂</div>
+              <span>Good</span>
+            </div>
+            <div class="mood-option" data-mood="okay">
+              <div class="mood-emoji">😐</div>
+              <span>Okay</span>
+            </div>
+            <div class="mood-option" data-mood="down">
+              <div class="mood-emoji">😔</div>
+              <span>Down</span>
+            </div>
+            <div class="mood-option" data-mood="struggling">
+              <div class="mood-emoji">😢</div>
+              <span>Struggling</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mood-factors">
+          <p>What's influencing your mood? (Select all that apply)</p>
+          <div class="factor-tags">
+            <span class="factor-tag">Academic Pressure</span>
+            <span class="factor-tag">Sleep Quality</span>
+            <span class="factor-tag">Social Interactions</span>
+            <span class="factor-tag">Physical Health</span>
+            <span class="factor-tag">Future Concerns</span>
+            <span class="factor-tag">Family</span>
+            <span class="factor-tag">Finances</span>
+          </div>
+        </div>
+        
+        <div class="mood-notes">
+          <textarea id="mood-notes" placeholder="Add any notes about how you're feeling today..."></textarea>
+        </div>
+        
+        <button id="mood-submit-btn" class="primary-btn">Save Today's Check-In</button>
+      </div>
+      
+      <div class="mood-insights" style="display: none;">
+        <h3>Your Mood Insights</h3>
+        
+        <div class="mood-chart">
+          <canvas id="mood-chart"></canvas>
+        </div>
+        
+        <div id="mood-history">
+          <!-- Mood history entries will be displayed here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
