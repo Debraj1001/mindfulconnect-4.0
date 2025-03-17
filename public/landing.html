@@ -678,6 +678,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
   <script src="cursor-effect.js"></script>
+  <!-- Add this script right before the closing body tag -->
+  <script>
+    // Check if the page is being loaded after a redirect from login
+    document.addEventListener("DOMContentLoaded", async () => {
+      // Force a check of auth status on page load
+      if (typeof checkAuthStatus === 'function') {
+        await checkAuthStatus();
+      }
+    });
+  </script>
 </body>
 </html>
 
