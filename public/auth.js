@@ -1,22 +1,25 @@
 // Import Supabase client and any necessary functions
-import { createClient } from "@supabase/supabase-js"
+// Import Supabase client
+import supabase from "./supabase-client.js"
 
-// Initialize Supabase client
-const supabaseUrl = "YOUR_SUPABASE_URL" // Replace with your Supabase URL
-const supabaseKey = "YOUR_SUPABASE_ANON_KEY" // Replace with your Supabase Anon Key
-const supabase = createClient(supabaseUrl, supabaseKey)
+// Check authentication status
+async function checkUser() {
+  try {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser()
 
-// Placeholder for showToast function (replace with your actual implementation)
-function showToast(message) {
-  console.log(message) // Replace with your toast notification logic
-  // Example using a simple alert:
-  // alert(message);
-}
-
-// Placeholder for checkUser function (replace with your actual implementation)
-function checkUser() {
-  // Check if user is logged in and redirect if necessary
-  console.log("Checking user session...")
+    if (user) {
+      console.log("User is logged in:", user)
+      // Redirect to landing page if already logged in
+      window.location.href = "landing.html"
+    } else {
+      console.log("No user logged in")
+    }
+  } catch (error) {
+    console.error("Error checking user:", error)
+  }
 }
 
 // Placeholder for initAuthTabs function (replace with your actual implementation)
@@ -54,6 +57,26 @@ async function signUp(email, password, fullName) {
 
     if (error) throw error
 
+    // Create profile entry
+    if (data.user) {
+      try {
+        const { error: profileError } = await supabase.from("profiles").insert([
+          {
+            id: data.user.id,
+            full_name: fullName,
+            email: email,
+            username: email.split("@")[0] + Math.floor(Math.random() * 1000),
+            avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.user.id}`,
+            is_online: true,
+          },
+        ])
+
+        if (profileError) console.error("Error creating profile:", profileError)
+      } catch (profileErr) {
+        console.error("Error creating profile:", profileErr)
+      }
+    }
+
     showToast("Registration successful! Please check your email for verification.")
     return data
   } catch (error) {
@@ -73,6 +96,13 @@ async function signIn(email, password) {
 
     if (error) throw error
 
+    // Update user's online status
+    if (data.user) {
+      const { error: updateError } = await supabase.from("profiles").update({ is_online: true }).eq("id", data.user.id)
+
+      if (updateError) console.error("Error updating online status:", updateError)
+    }
+
     showToast("Login successful!")
 
     // Redirect to landing page after successful login
@@ -91,6 +121,19 @@ async function signIn(email, password) {
 // Sign out
 async function signOut() {
   try {
+    // Get current user before logout
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    // Update user's online status to false before logging out
+    if (user) {
+      const { error: updateError } = await supabase.from("profiles").update({ is_online: false }).eq("id", user.id)
+
+      if (updateError) console.error("Error updating online status:", updateError)
+    }
+
+    // Sign out from Supabase
     const { error } = await supabase.auth.signOut()
 
     if (error) throw error
@@ -105,6 +148,26 @@ async function signOut() {
     showToast(error.message || "Error during sign out")
     console.error("Error signing out:", error)
   }
+}
+
+// Show toast notification
+function showToast(message) {
+  // Create toast element if it doesn't exist
+  let toast = document.getElementById("toast-notification")
+  if (!toast) {
+    toast = document.createElement("div")
+    toast.id = "toast-notification"
+    document.body.appendChild(toast)
+  }
+
+  // Set message and show toast
+  toast.textContent = message
+  toast.classList.add("show")
+
+  // Hide toast after 3 seconds
+  setTimeout(() => {
+    toast.classList.remove("show")
+  }, 3000)
 }
 
 // Update auth-script.js to use Supabase
@@ -218,4 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 })
+
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", () => {
+  // Check if user is already logged in
+  checkUser()
+})
+
+// Export functions for use in other files
+export { checkUser, signUp, signIn, signOut, showToast }
 
